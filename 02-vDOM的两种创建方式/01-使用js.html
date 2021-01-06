@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="test"></div>
+
+  <script src="../js/babel.min.js"></script>
+  <script src="../js/prop-types.js"></script>
+  <script src="../js/react.development.js"></script>
+  <script src="../js/react-dom.development.js"></script>
+  
+  <!-- 第一种：即第一小节 -->
+  <!-- 第二种：
+    你也可以使用text/JavaScript即js，但无法再使用jsx语法
+    需要注意的是，如果有一个需求，多层嵌套模板，显然以下方法
+    结构是非常紊乱难以读懂，但使用jsx最终编译还是如下形式 -->
+
+  <script type="text/javascript">
+    const vDOM = React.createElement('h1', {id:'test'}, 'hello,react')
+    ReactDOM.render(vDOM, document.getElementById('test'))
+  </script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="test"></div>
+  <script src="../js/babel.min.js"></script>
+  <script src="../js/prop-types.js"></script>
+  <script src="../js/react.development.js"></script>
+  <script src="../js/react-dom.development.js"></script>
+  <script type="text/babel">//babel会把jsx开启严格模式，因此函数体内的this指向undefined
+    /* 函数组件
+    适用于简单组件 */
+    function Demo1(props) {//注意首字母
+      console.log(this)//undefinded
+      return <h1>我是函数组件</h1>
+    }
+    ReactDOM.render(<Demo1 />, document.getElementById('test'))
+
+    /* 类组件 */
+    class Demo2 extends React.Component {
+      render() {
+        console.log(this)//创建的组件实例对象
+        return <h1>我是类组件</h1>
+      }
+    }
+    ReactDOM.render(<Demo2 />, document.getElementById('test'))
+  </script>
+</body>
+</html>
