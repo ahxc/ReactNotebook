@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="test"></div>
+  <script src="../js/babel.min.js"></script>
+  <script src="../js/prop-types.js"></script>
+  <script src="../js/react.development.js"></script>
+  <script src="../js/react-dom.development.js"></script>
+  <script type="text/babel">
+    class Person extends React.Component{
+      //propTypes简写方式，static静态方法，不需要实例化，类内部使用，不能实例调用
+      // 第一种定义
+      static propTypes = {
+        name: PropTypes.string.isRequired,
+        sex: PropTypes.string,
+        speak: PropTypes.func
+      }
+      static defaultProps = {
+        name: 'zx'
+      }
+      render() {//render调用n+1次，1为初始化一次，n为set次数
+        const {name, age, sex} = this.props
+        return (
+          <ul>
+            <li>别名{name}</li>
+            <li>性别{age}</li>
+            <li>年龄{sex}</li>
+          </ul>
+        )
+      }
+    }
+    // 第二种定义
+    Person.propTypes = {
+      name: PropTypes.string.isRequired,
+      age: PropTypes.number,
+      speak: PropTypes.func
+    }
+    //指定传给person默认props值
+    Person.defaultProps = {
+      sex: "男",
+      age: 18,
+    }
+    ReactDOM.render(<Person />, document.getElementById('test'))
+  </script>
+</body>
+</html>

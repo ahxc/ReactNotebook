@@ -12,26 +12,34 @@
   <script src="../js/react.development.js"></script>
   <script src="../js/react-dom.development.js"></script>
   <script type="text/babel">//babel会把jsx开启严格模式，因此函数体内的this指向undefined
-    /* 注意
-    1.组件render后的this指向组件实例对象
-    2.组件自定义方法中的this为undefined，可通过bind绑定到组件实例对象。func.bind(this)
-    3.状态数据不能直接修改。
-    */
     class Weather extends React.Component {
       constructor(props){
         super(props)
         this.state = {name: 'zx', age: '18', show: true, count: 0}
       }
+      // state = {isHot:false}//state简写方式，可以忽略掉构造器
       render() {
         const {show} = this.state
-        return <h1 onClick={demo}>{show ? 'haha' : '55'}</h1>//绑定事件
+        return <h1 onClick={demo}>{show ? this.props.haha : '55'}</h1>//绑定事件
       }
     }
-    ReactDOM.render(<Weather/>, document.getElementById('test'))
-    
+    // props
+    ReactDOM.render(<Weather haha='haha' />, document.getElementById('test'))
+    // 批量传递props，注意花括号不要和对象搞混，展开运算符无法展开对象(...p)，只能是解构赋值{...p, a:'b',...c}，
+    //下面的可行是因为使用了babel，同时花括号只是一种模板语法。
+    const p = {haha: 'haha', bb: 'bb', cc: 'cc'}
+    ReactDOM.render(<Weather {...p} />, document.getElementById('test'))
     function demo() {
       console.log('点击了')
     }
+    const a = [1,1,1,1,2]
+    
+    console.log('@',...a)
+
+    /* state和props的区别
+    state 和 props 主要的区别在于 props 是不可变的，而 state 可以根据与用户交互来改变。
+    这就是为什么有些容器组件需要定义 state 来更新和修改数据。 而子组件只能通过 props 来传递数据。
+    */
   </script>
 </body>
 </html>

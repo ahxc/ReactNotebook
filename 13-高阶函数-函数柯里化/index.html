@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script src="../js/babel.min.js"></script>
+  <script src="../js/prop-types.js"></script>
+  <script src="../js/react.development.js"></script>
+  <script src="../js/react-dom.development.js"></script>
+  <div id="test"></div>
+  <script type="text/babel">
+    class Demo extends React.Component{
+      state = {//受控组件
+        username: '',
+        password: '',
+      }
+      /* 1.如果按照如下方法保存state状态，那么在每个空间上需要复写多次，比如保存密码，邮箱，日期等等 */
+      savaUsername = event=>{
+        this.setState({username: event.target.value})
+      }
+      /* 2.柯里化函数，接收参数，按对应参数返回对应的函数 */
+      saveFormData(data) {
+        console.log('d')
+        return (event)=>{/* 此处有点问题
+          首先初始化会执行带括号的函数这是react必定的，但只会执行带事件对象函数体以外的语句，且只在初始化执行，而在响应事件后，
+          则反过来只执行带事件对象里的语句 */
+          console.log('e',event)
+          event.preventDefault()
+          //针对上面的怪相，如果加了这一步，在事件响应后又能执行return以外的语句，但会在箭头函数执行完后执行。
+          this.setState({data:event.target.value})
+        }
+      }
+      /* 3.改进 */
+      saveFormData2 = data=>{
+        event=>{console.log(data)}
+      }
+      /* 测试分析，在react中：
+      首先重要的一点：带括号的内联函数在react初始化时会执行。如果函数还带除事件以外的参数传递，那么还只在初始化阶段执行。
+
+      1.组件自身方法如果不加形参，无论是否有箭头函数，默认都是event事件对象
+      2.如果加形参，没有箭头函数且没有传递任何参数给方法，那么无论形参名为何，都是代表事件对象
+      3.如果传递了参数给事件对象，那么该参数会覆写掉event对象，函数方法因为获取不到事件对象，所以无法执行函数内部事件对象以外的语句
+
+      至于为什么加了setState能执行箭头函数以外的语句（且在带事件对象的函数执行完后再执行），
+      那是因为setState会重新render初始化，所以带括号的内联函数会跟着初始化一次。
+      
+      一句话总结：在带形参且传参（获取不到事件对象）的情况下，初始化时只执行事件对象函数以外的语句，
+      而调用方法时，只执行事件响应调用的函数体。 */
+      save(data){
+        console.log('test', this);
+        return (event)=>{
+          this.setState({name: data})
+          console.log(event, 'e', this)
+          event.preventDefault()
+        }
+      }
+      submit(event) {
+        event.preventDefault()
+        const {username, password} = this
+        alert(username.value)
+        return false
+      }
+      render() {
+        return (
+          /* 4.也可以写成内联形式 */
+          <form onSubmit={event=>this.save('data', event)} action="http://www.baidu.com">
+            用户名：<input ref={c => this.username = c} onBlur={this.save('data')} onChange={this.savaUsername} type="text" name="username" />
+            密码：<input type="password" name="password" />
+            <button>登录</button>
+          </form>
+        )
+      }
+    }
+    ReactDOM.render(<Demo />, document.getElementById('test'))
+  </script>
+</body>
+</html>

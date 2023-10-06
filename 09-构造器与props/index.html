@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+  <div id="test"></div>
+  <script src="../js/babel.min.js"></script>
+  <script src="../js/prop-types.js"></script>
+  <script src="../js/react.development.js"></script>
+  <script src="../js/react-dom.development.js"></script>
+  <script type="text/babel">
+    class Person extends React.Component{
+      constructor(props) {
+        // 如果要写构造器，那么必须继承props，否则在构造器内部通过this.props拿不到props，
+        // 但既然继承了完全可以直接使用props不需要this.props
+        super(props)
+      }
+      render() {// render调用n+1次，1为初始化一次，n为set次数
+        const {name, age, sex} = this.props
+        return (
+          <ul>
+            <li>别名{name}</li>
+            <li>性别{age}</li>
+            <li>年龄{sex}</li>
+          </ul>
+        )
+      }
+    }
+    Person.propTypes = {
+      name: PropTypes.string.isRequired,
+      age: PropTypes.number,
+      speak: PropTypes.func
+    }
+    //指定传给person默认props值
+    Person.defaultProps = {
+      sex: "男",
+      age: 18,
+    }
+    ReactDOM.render(<Person />, document.getElementById('test'))
+  </script>
+</body>
+</html>

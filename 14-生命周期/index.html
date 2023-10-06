@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script src="../js/babel.min.js"></script>
+  <script src="../js/prop-types.js"></script>
+  <script src="../js/react.development.js"></script>
+  <script src="../js/react-dom.development.js"></script>
+  <script type="text/babel">
+    <div id="test"></div>
+    class Demo extends React.Component{
+      // 生命周期分为两个阶段：初始化阶段和更新阶段
+      state = {cpu: 50}
+      death = ()=>{
+        // 卸载组件
+        ReactDOM.unmountComponentAtNode(document.getElementById('test'))
+      }
+      // 接收props传递前执行，初始化时不执行，不论是否接收到了props
+      // 四个will除WillUnmount外都要过期
+      componentWillReceiveProps() {}
+
+      // 挂载之前
+      componentWillMount() {}
+
+      // 组件挂载之后，注意和修改后的state，render不一样
+      componentDidMount() {}
+
+      //组件将要卸载
+      componentWillUnmount() {}
+
+      //组件是否应该更新，默认true，控制组件是否render，通过setState触发，相当于组件setState后到将要更新之间的阀门
+      shouldComponentUpdate() {
+        return false
+      }
+      //组件将要更新，更新的定义和vue类似，即数据更新完毕并且已经渲染render
+      // forceUpdate()触发，不需要经过shouldComponentUpdate，看图。
+      componentWillUpdate() {}
+
+      //组件更新完毕
+      componentDidUpdate() {}
+      render() {
+        // 因为render的调用次数时1+n次，即初始化一次，修改state调用1次，因此会逐步开启多个定时器
+        setInterval(() => {
+          console.log("cpu煎鸡蛋")
+          let cpu = this.state.cpu+1
+          this.setState({cpu})
+        }, 200);
+        return {
+
+        }
+      }
+    }
+  </script>
+</body>
+</html>

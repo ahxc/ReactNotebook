@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script src="../js/babel.min.js"></script>
+  <script src="../js/prop-types.js"></script>
+  <script src="../js/react.development.js"></script>
+  <script src="../js/react-dom.development.js"></script>
+  <script type="text/babel">
+    class Demo extends React.Component{
+      /* 
+      1.通过on属性指定事件处理函数，注意大小写，覆写的是驼峰写法如onClick
+        a.React覆写了原生DOM事件
+        b.使用的是事件委托形式（最外层）
+      2.通过event.target获取事件响应后的DOM元素对象
+      3.事件绑定函数不能加括号，如onclick=this.handle()，初始化时会立即执行，这点和原生js不同。
+        原生js不会立即执行，且react的handle参数会覆写事件对象event，解决办法是双层箭头函数嵌套，
+        内部箭头函数用以接收event参数 */
+      func = data=>{
+        event=>{}
+      }
+    }
+  </script>
+</body>
+</html>

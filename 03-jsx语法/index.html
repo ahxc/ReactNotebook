@@ -31,17 +31,17 @@
       <div key='3'>three</div>
     ]
 
-    //重复挂载在同一个节点会覆盖之前的挂载
+    // 重复挂载在同一个节点会覆盖之前的挂载
     ReactDOM.render(vDOMArray, document.getElementById('test'))
 
     /* js语法规则
     1.定义模板需要引号或者`
     2.标签中的变量和表达式用{}，表达式里不能使用if，但可以使用三目运算符
     3.class变为className，不需要{}
-    4.内联样式要用style={{key:value}}的形式去写
+    4.内联样式要用style={{key:"value",...}}的形式去写，原生的是style="key:value;..."分号隔开
     5.jsx用于模板只能包含一个根标签，和vue模板一致，但多个vDOM元素可以使用array
       array的vDOM需要一个key属性绑定，类似v-for，否则报警
-    6.标签必须闭合，即便是单标签
+    6.标签必须闭合，包括单标签
     7.标签的首字母
       a.如果是小写字母开头，则将改为html中同名元素，如果没有则报错
       b.若是大写字母开头，则渲染为对应组件，如没有则报错

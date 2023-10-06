@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="test"></div>
+  <script src="../js/babel.min.js"></script>
+  <script src="../js/prop-types.js"></script>
+  <script src="../js/react.development.js"></script>
+  <script src="../js/react-dom.development.js"></script>
+  <script type="text/babel">
+    class Demo extends React.Component {
+      // ref='input1'
+      showData1 = () => {
+        const { input1 } = this.refs;
+        console.log(input1);
+      };
+      // ref={el=>this.input2=el}
+      showData2 = () => {
+        const { input2 } = this;
+        console.log(input2);
+      };
+      // 和2一样，只是封装一下赋值函数，提出来。
+      showData3 = () => {
+        const { input3 } = this;
+        console.log(input3.value);
+        console.log(this.myRef, this.myRef.current.value);// {current: input}标签名
+      };
+      savaInput = (c) => {
+        this.input3 = c;
+        console.log(c);
+      };
+      showData4 = () => {
+        const { input4 } = this;
+        console.log(input4, input4.current);
+      };
+      // 和其值和hooks ref一致的一种，由current和 [[protype组成]]的一个node节点
+      // 调用后返回一个容器，容器可存储以下自建容器ref标识的节点
+      input4 = React.createRef();
+      render() {
+        return (
+          <div>
+            {/* 常规的ref，和vue一样 */}
+            <input ref="input1" type="text" placeholder="点击提交数据" />
+            <button onClick={this.showData1}>提交</button>
+
+            {/* 内联回调形式的ref：将当前节点赋值给this.input2，这句在初始化时花括号的语句就会先执行一次
+            在更新DOM时，会执行两次，第一次传参null，第二次传当前节点，因为每次render都是新实例，
+            为了清除上次的节点，则设为null */}
+            <input ref={c => { this.input2 = c; }} onBlur={this.showData2} type="text" placeholder="失去焦点提示数据" />
+
+            {/* 类绑定方法形式的ref：如果想避免上述两次递交，可以将箭头函数封装绑定到实例上，但大多数情况下这都无关紧要 */}
+            <input ref={this.savaInput} onBlur={this.showData3} type="text" />
+
+            {/* 自建容器形式的ref，比较繁琐，一个节点对应一个容器 */}
+            <input ref={this.input4} type="text" onBlur={this.showData4} />
+          </div>
+        );
+      }
+    }
+    ReactDOM.render(<Demo />, document.getElementById('test'))
+  </script>
+</body>
+
+</html>

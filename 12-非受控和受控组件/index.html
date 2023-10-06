@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script src="../js/babel.min.js"></script>
+  <script src="../js/prop-types.js"></script>
+  <script src="../js/react.development.js"></script>
+  <script src="../js/react-dom.development.js"></script>
+  <div id="test"></div>
+  <script type="text/babel">
+  /* 非受控组件：诸如input此类现改现用的组件，直接通过组件属性username.value调用
+     受控组件：把组件事件响应的结果存储到state中，即是受控组件，受控组件虽然多了一层state限制，
+     但不用使用ref，解构也更清晰 */
+    class Demo extends React.Component{
+      state = {//受控组件
+        username: ''
+      }
+      savaUsername = event=>{
+        this.setState({username: event.target.value})
+      }
+      submit(event) {
+        event.preventDefault()//表单默认动作是提交，这里组织提交。
+        const {username, password} = this
+        alert(username.value)//非受控组件
+      }
+      render() {
+        return (
+          <form onSubmit={this.submit} action="http://www.baidu.com">
+            {/* 使用ref的非受控组件，现拿现用 */}
+            用户名：<input ref={c => this.username = c} type="text" name="username" />
+            密码：<input ref={c => this.password = c} type="password" name="password" />
+            <button onClick={this.savaUsername}>登录</button>
+          </form>
+        )
+      }
+    }
+    ReactDOM.render(<Demo />, document.getElementById('test'))
+  </script>
+</body>
+</html>
