@@ -12,11 +12,18 @@
 
 <body>
   <div id="test"></div>
-
   <script src="../js/babel.min.js"></script>
+  <!-- prop类型控制 -->
   <script src="../js/prop-types.js"></script>
+  <!-- react -->
   <script src="../js/react.development.js"></script>
+  <!-- dom控制 -->
   <script src="../js/react-dom.development.js"></script>
+  <!-- 因为包含jsx的语法，所以需要使用babel转换 -->
+  <script type="text/babel">
+    const vDom = <h1>Hello World!</h1>;
+    ReactDOM.render(vDom, document.getElementById("test"))
+  </script>
 
   <!-- 第一种：即第一小节 ReactDOM.render()-->
   <!-- 第二种：
