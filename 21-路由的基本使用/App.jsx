@@ -4,10 +4,14 @@ import Home from "./components/Home";
 import About from "./components/About";
 import MyNavLink from "./components/MyNavLink";
 
+import { withRouter } from 'react-router-dom'; // 解决一般组件无路由三大属性的问题。需要一般组件操控路由的场景
+const component = () => {
+    return <div></div>;
+};
+export default withRouter(Component);
 
 // 1.一个路由就是key和value的映射关系
 // 2.key就是路径path，value可以是组件和函数。
-// 浏览器的路由即基于history的替换。
 
 // 路由分为前端路由和后端路由
 // 后端路由：value是函数，一般接收路径参数请求数据和请求接口的url就是后端路由。
@@ -19,12 +23,13 @@ import MyNavLink from "./components/MyNavLink";
 // 1。明确页面的导航区和展示区
 // 2。导航区的a标签改为Link标签 <Link to="/about">About</Link>
 // 3。展示区的路劲与a标签的路径匹配，<Route path="/about" component={About}/>
-// 4。App组件标签外包裹一个<BrowserRouter>或<HashRouter>
+// 4。App组件标签外包裹一个<BrowserRouter> history 模式，或 <HashRouter> hash 模式
 
-// 路由组件和一般组件本质的区别，路由组件会接收三大props：location、history、match
+// ! 路由组件和一般组件本质的区别，只有路由组件会接收三大props：location、history、match
 // 然后就是写法不同，<App/><Route path="/about" component={About}/>
 
 // 编程式路由
+// 和js笔记history方法命名有区别，作用大体一致。
 const click = () => {
     // params
     this.props.history.push(`/home/${id}/${title}`);
@@ -34,6 +39,11 @@ const click = () => {
 
     // state
     this.props.history.replace(`/home`, { id, title });
+
+
+    this.props.history.go();
+    this.props.history.goForward();
+    this.props.history.goBack();
 };
 
 export default class App extends Component {
@@ -97,7 +107,7 @@ export default class App extends Component {
                                     {/* 注意，如果组件里还有路由，即嵌套路由，比如Home里的子路由，那么需要把Home的路由/home也加到path里
 								如/home/news */}
 
-                                    {/* 实现单个路由的重定向，进入/跳转路由home */}
+                                    {/* 实现单个路由的重定向，进入/跳转路由home，并使用懒加载的方式。 */}
                                     <Route exact path='/' render={() => <Redirect to='/home' />}></Route>
 
                                     {/* 嵌套路由 */}
@@ -136,7 +146,7 @@ export default class App extends Component {
                                     />
 
                                     {/* 向路由组件传递参数 state，刷新也能保留参数 */}
-                                    {/* 组件通过 this.props.location.state 获取字典对象 */}
+                                    {/* 组件通过 this.props.location.state 获取字典对象，注意undefined */}
                                     <Link to={{ pathname: 'home/news/detail', state: { id: 1, title: 1 } }}>
                                         About
                                     </Link>
@@ -150,7 +160,6 @@ export default class App extends Component {
                                     <Link replace to={{ pathname: 'home/news/detail', state: { id: 1, title: 1 } }}>
                                         About
                                     </Link>
-
 
                                 </Switch>
                             </div>
