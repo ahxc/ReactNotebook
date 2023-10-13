@@ -75,7 +75,7 @@
 			// props，setState，forceUpdate，该方法不能实例化调用（作为实例属性方法）
 			// 和WillReceiveProps相比，get初始化也会执行
 			// 一个冗余函数，获取属性并执行操作基本执行相应的方法即可完全不需要钩子函数
-			static getDerivedStateFromProps(props, state) {
+			static getDerivedStateFromProps(nextProps, preState) {
 				// props传递过来的新属性，state为上一状态，在state中赋值props时，react需要手动更新state：
 				if (props.count !== props.state) { this.setState({ count: props.count }); }
 				return null;
@@ -97,7 +97,7 @@
 				console.log('Count---componentWillUnmount');
 			}
 
-			//控制组件更新的“阀门”
+			// 控制组件更新的“阀门”
 			shouldComponentUpdate(nextProps, nextState) {
 				// 可通过该方法比较新旧状态。减少更新渲染次数
 				console.log('Count---shouldComponentUpdate');
@@ -109,6 +109,17 @@
 			//组件更新完毕的钩子
 			componentDidUpdate(preProps, preState, snapshotValue) {
 				console.log('Count---componentDidUpdate', preProps, preState, snapshotValue);
+			}
+
+			// 错误边界组件，编写一个类组件包裹子组件。
+			// 当子组件（包括远亲组件）在渲染过程中抛出错误时，React 就会调用它。这使你可以显示错误消息而不是直接清理 UI。
+			static getDerivedStateFromError(error) {
+			}
+
+
+			// 一般和 getDerivedStateFromError 搭配使用，捕获错误信息。错误边界组件只能捕获子组件生命周期产生的错误
+			// 不能捕获自身组件的错误，包含合成事件，定时器中的错误等。
+			componentDidCatch(error, errorInfo) {
 			}
 
 			render() {

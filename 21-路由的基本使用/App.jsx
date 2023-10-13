@@ -1,14 +1,14 @@
 import React, { Component } from "react";
-import { NavLink, Link, Route, Switch, Redirect } from "react-router-dom";
+import { NavLink, Link, Route, Switch, Redirect, Routes, useRoutes, useNavigate, } from "react-router-dom";
 import Home from "./components/Home";
 import About from "./components/About";
 import MyNavLink from "./components/MyNavLink";
 
 import { withRouter } from 'react-router-dom'; // 解决一般组件无路由三大属性的问题。需要一般组件操控路由的场景
-const component = () => {
-    return <div></div>;
-};
-export default withRouter(Component);
+// const component = () => {
+//     return <div></div>;
+// };
+// export default withRouter(Component);
 
 // 1.一个路由就是key和value的映射关系
 // 2.key就是路径path，value可以是组件和函数。
@@ -45,6 +45,101 @@ const click = () => {
     this.props.history.goForward();
     this.props.history.goBack();
 };
+
+// 函数编程
+
+// 和vue类似路由列表，用模版语法直接渲染 { routesA }
+const routesA = useRoutes([
+    {
+        path: '/about',
+        element: <ClassTest />,
+        children: {
+            path: '/',
+            element: <Navigate to='/about' />,
+        },
+    },
+    {
+        path: '/',
+        element: <Navigate to='/about' />,
+    },
+]);
+
+// useNavigate，编程路由
+function name(params) {
+    const navigate = useNavigate();
+    // 第一种方式
+    navigate('/url', {
+        replace: false,
+        state: { a: 'zx', b: '29' }
+    });
+    // 第二种方式
+    navigate(-1); // 和history类似。
+}
+
+// useParams 参数。
+function ProfilePage() {
+    // 获取URL中携带过来的params参数
+    let { id } = useParams();
+}
+
+function App() {
+    return (
+        <Routes>
+            <Route path="users/:id" element={<User />} />
+        </Routes>
+    );
+}
+
+// useSearchParams 参数。
+import { useSearchParams } from 'react-router-dom';
+
+export default function Detail() {
+    // setSearch 仅用于更新search参数
+    const [search, setSearch] = useSearchParams();
+    // search 用于 search 中获取参数
+    const id = search.get('id');
+    const title = search.get('title');
+    const content = search.get('content');
+    return (
+        <ul>
+            <li>
+                <button onClick={() => setSearch('id=008&title=哈哈&content=嘻嘻')}>点我更新一下收到的search参数</button>
+            </li>
+            <li>消息编号：{id}</li>
+            <li>消息标题：{title}</li>
+            <li>消息内容：{content}</li>
+        </ul>
+    );
+}
+
+// state 参数没有变化还是link标签，附带 state属性。
+
+
+// useLocation，获取location对象。
+import { useLocation } from 'react-router-dom';
+
+export default function Detail() {
+    const x = useLocation();
+    // x就是location对象:
+    /*
+        {
+      hash: "",
+      key: "ah9nv6sz",
+      pathname: "/login",
+      search: "?name=zs&age=18",
+      state: {a: 1, b: 2}
+    }
+    */
+    return (
+        <ul>
+        </ul>
+    );
+}
+
+// useOutlet 用来呈现组件渲染的嵌套路由，outlet渲染的内容。
+const res = useOutlet();
+
+// useResolvedPath() 给定一个url值，解析其中 path，search，hash
 
 export default class App extends Component {
     render() {
@@ -102,12 +197,12 @@ export default class App extends Component {
                                         path="/home"
                                         component={Home}
                                     />
-                                    {/* Redireact相当于默认页面，当匹配失败重定向指定路由 */}
+                                    {/* Redireact相当于默认页面，当所有匹配失败重定向指定路由 */}
                                     <Redirect to="/about" />
                                     {/* 注意，如果组件里还有路由，即嵌套路由，比如Home里的子路由，那么需要把Home的路由/home也加到path里
 								如/home/news */}
 
-                                    {/* 实现单个路由的重定向，进入/跳转路由home，并使用懒加载的方式。 */}
+                                    {/* 实现单个路由的重定向，进入/跳转路由home，并使用懒加载的方式。V6写法 */}
                                     <Route exact path='/' render={() => <Redirect to='/home' />}></Route>
 
                                     {/* 嵌套路由 */}
@@ -162,6 +257,34 @@ export default class App extends Component {
                                     </Link>
 
                                 </Switch>
+
+                                {/* react router v6 变化 */}
+                                {/* Switch 替成 Routes */}
+                                <Routes>
+                                    <Route
+                                        path='/'
+                                        caseSensitive /* 是否区分大小写 */
+                                        element={<ClassTest />}
+                                        Component={ClassTest}  /* 旧写法 Component 注意首字母大写 */
+                                    />
+                                    {/* 新版重定向，只要 navigate 组件被渲染就会修改path路径 */}
+                                    <Route path='/' element={<Navigate to='/about'
+                                        replace={false} // 默认push
+                                    />} />
+                                    {
+                                        sum === 1
+                                            ? Boolean
+                                            : <Navigate to='/about'
+                                                replace={false} // 默认push
+                                            />
+                                    }
+                                </Routes>
+
+                                {/* useRoutes 的使用 */}
+                                {routesA} {/* 等同于上面 Routes 内容 */}
+
+                                {/* 类似 vue 的 router-view ，路由组件的渲染地方 */}
+                                <Outlet />
                             </div>
                         </div>
                     </div>
