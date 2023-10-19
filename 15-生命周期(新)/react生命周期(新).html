@@ -81,21 +81,11 @@
 				return null;
 			}
 
-			// 在更新之前获取快照，render之后，dom update之前，可以用来获取一些旧数据
-			getSnapshotBeforeUpdate() {
-				console.log('getSnapshotBeforeUpdate');
-				return 'atguigu';
-			}
-
 			// 组件挂载完毕的钩子
 			componentDidMount() {
 				console.log('Count---componentDidMount');
 			}
 
-			//组件将要卸载的钩子
-			componentWillUnmount() {
-				console.log('Count---componentWillUnmount');
-			}
 
 			// 控制组件更新的“阀门”
 			shouldComponentUpdate(nextProps, nextState) {
@@ -120,6 +110,17 @@
 			// 一般和 getDerivedStateFromError 搭配使用，捕获错误信息。错误边界组件只能捕获子组件生命周期产生的错误
 			// 不能捕获自身组件的错误，包含合成事件，定时器中的错误等。
 			componentDidCatch(error, errorInfo) {
+			}
+
+			// 在更新之前获取快照，render之后，dom update之前，可以用来获取一些旧数据
+			getSnapshotBeforeUpdate(prevProps, prevState) {
+				console.log('getSnapshotBeforeUpdate');
+				return 'atguigu';
+			}
+
+			//组件将要卸载的钩子
+			componentWillUnmount() {
+				console.log('Count---componentWillUnmount');
 			}
 
 			render() {

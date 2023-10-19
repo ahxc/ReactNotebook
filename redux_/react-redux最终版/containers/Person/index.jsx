@@ -38,5 +38,5 @@ export default connect(
 		persons: state.persons,
 		count: state.count
 	}),//映射状态
-	{ addPerson }//映射操作状态的方法
+	{ addPerson }// 映射操作状态的方法
 )(Person);

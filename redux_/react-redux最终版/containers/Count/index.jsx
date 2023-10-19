@@ -62,6 +62,22 @@ export default connect(
 		count: state.count,
 		personCount: state.persons.length
 	}),
-	{ increment, decrement, incrementAsync }
-)(Count)
+	{ increment, decrement, incrementAsync } // mapStateToProps, mapDispatchToProps 将映射state， dispatch传到到组件上。
+)(Count);
 
+// hooks 写法
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { addCount } from './store/counter/actions';
+
+export const Demo = () => {
+	const count = useSelector(state => state.counter.count);
+	const dispatch = useDispatch();
+
+	return (
+		<div>
+			<div>Count: {count}</div>
+			<button onClick={() => dispatch(addCount())}>Count</button>
+		</div>
+	);
+};

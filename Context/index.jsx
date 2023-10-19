@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import './index.css';
+import PropTypes from 'prop-types';
+// react.PropTypes
 
-// 创建Context对象，最好单独作为公共文件以便各个模块提取。
+// 方法一：创建Context对象，最好单独作为公共文件以便各个模块提取。
 const MyContext = React.createContext();
 const { Provider, Consumer } = MyContext;
 
@@ -9,14 +11,18 @@ export default class A extends Component {
 
 	state = { username: 'tom', age: 18 };
 
-	render() {
+	// ! 如果接受者要更新提供者传来的context，可以把更新的办法传递过去。
+	// 函数组件则不需要bind this，把set方法传过去即可。
+
+	get
+		render() {
 		const { username, age } = this.state;
 		return (
 			<div className="parent">
 				<h3>我是A组件</h3>
 				<h4>我的用户名是:{username}</h4>
 				{/* 用 provider 包裹需要传递消息子组件，并通过value属性传递 */}
-				<Provider value={{ username, age }}>
+				<Provider value={{ username, age, update: this.updateContextValue.bind(this) }}>
 					<B />
 				</Provider>
 			</div>
@@ -24,8 +30,23 @@ export default class A extends Component {
 	}
 }
 
-// 不声明无法拿取
 class B extends Component {
+	// 不声明无法拿取
+	static childContext = {
+		color: PropTypes.string,
+		changeColor: PropTypes.func,
+	};
+
+	//--- 方法二：context 也可不用导入createContext，通过生命周期方法 getChildContext 获取孙子组件的上下文。
+	// ! 注意这方法只能父子组件通信，而createContext包裹的组件无此限制。
+
+	getChildContext() {
+		return {
+			color: 'red',
+			theme: {},
+		};
+	}
+
 	render() {
 		return (
 			<div className="child">
@@ -39,8 +60,14 @@ class B extends Component {
 
 class C extends Component {
 	// 声明接收 context 
-	static contextType = MyContext;
+	static contextType = {
+		...MyContext,
+		//--- 在此声明
+		color: PropTypes.string,
+		theme: PropTypes.object,
+	};
 	render() {
+		console.log(this.context.color);
 		// 然后通过this拿去。
 		const { username, age } = this.context;
 		return (
@@ -51,7 +78,6 @@ class C extends Component {
 		);
 	}
 }
-
 
 // 函数组件通过 useContext 获取
 

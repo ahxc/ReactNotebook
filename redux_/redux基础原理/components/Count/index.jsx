@@ -1,12 +1,12 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 //引入store，用于获取redux中保存状态
-import store from '../../redux/store'
+import store from '../../redux/store';
 //引入actionCreator，专门用于创建action对象
-import {createIncrementAction,createDecrementAction} from '../../redux/count_action'
+import { createIncrementAction, createDecrementAction } from '../../redux/count_action';
 
 export default class Count extends Component {
 
-	state = {carName:'奔驰c63'}
+	state = { carName: '奔驰c63' };
 
 	/* componentDidMount(){
 		//检测redux中状态的变化，只要变化，就调用render
@@ -16,30 +16,30 @@ export default class Count extends Component {
 	} */
 
 	//加法
-	increment = ()=>{
-		const {value} = this.selectNumber
-		store.dispatch(createIncrementAction(value*1))
-	}
+	increment = () => {
+		const { value } = this.selectNumber;
+		store.dispatch(createIncrementAction(value * 1));
+	};
 	//减法
-	decrement = ()=>{
-		const {value} = this.selectNumber
-		store.dispatch(createDecrementAction(value*1))
-	}
+	decrement = () => {
+		const { value } = this.selectNumber;
+		store.dispatch(createDecrementAction(value * 1));
+	};
 	//奇数再加
-	incrementIfOdd = ()=>{
-		const {value} = this.selectNumber
-		const count = store.getState()
-		if(count % 2 !== 0){
-			store.dispatch(createIncrementAction(value*1))
+	incrementIfOdd = () => {
+		const { value } = this.selectNumber;
+		const count = store.getState(); // 一个组件对应一个reducer
+		if (count % 2 !== 0) {
+			store.dispatch(createIncrementAction(value * 1));
 		}
-	}
+	};
 	//异步加
-	incrementAsync = ()=>{
-		const {value} = this.selectNumber
-		setTimeout(()=>{
-			store.dispatch(createIncrementAction(value*1))
-		},500)
-	}
+	incrementAsync = () => {
+		const { value } = this.selectNumber;
+		setTimeout(() => {
+			store.dispatch(createIncrementAction(value * 1));
+		}, 500);
+	};
 
 	render() {
 		return (
@@ -55,6 +55,6 @@ export default class Count extends Component {
 				<button onClick={this.incrementIfOdd}>当前求和为奇数再加</button>&nbsp;
 				<button onClick={this.incrementAsync}>异步加</button>&nbsp;
 			</div>
-		)
+		);
 	}
 }
