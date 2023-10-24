@@ -10,9 +10,6 @@ function ContextTest(props) {
 
     return (
         <div>
-            <Context.Consumer>
-                {(value) => { console.log(value); }}
-            </Context.Consumer>
         </div>
     );
 }

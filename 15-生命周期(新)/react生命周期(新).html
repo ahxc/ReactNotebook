@@ -106,9 +106,8 @@
 			static getDerivedStateFromError(error) {
 			}
 
-
 			// 一般和 getDerivedStateFromError 搭配使用，捕获错误信息。错误边界组件只能捕获子组件生命周期产生的错误
-			// 不能捕获自身组件的错误，包含合成事件，定时器中的错误等。
+			// 不能捕获自身组件的错误，包含合成事件，定时器（异步任务）中的错误，服务端渲染等。
 			componentDidCatch(error, errorInfo) {
 			}
 

@@ -11,7 +11,14 @@
 </head>
 
 <body>
-  <div id="test"></div>
+  <div
+    id="test"
+    ondrag="test(event)"
+  ></div>
+  <input
+    type="text"
+    onchange="test()"
+  >
   <script src="../js/babel.min.js"></script>
   <!-- prop类型控制 -->
   <script src="../js/prop-types.js"></script>
@@ -22,7 +29,15 @@
   <!-- 因为包含jsx的语法，所以需要使用babel转换 -->
   <script type="text/babel">
     const vDom = <h1>Hello World!</h1>;
-    ReactDOM.render(vDom, document.getElementById("test"))
+    ReactDOM.render(vDom, document.getElementById("test"));
+
+    function test(event) {
+      console.log(event);
+    }
+
+    test(event){
+      console.log(event);
+    }
   </script>
 
   <!-- 第一种：即第一小节 ReactDOM.render()-->

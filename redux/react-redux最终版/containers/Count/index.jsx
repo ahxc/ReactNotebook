@@ -69,6 +69,7 @@ export default connect(
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addCount } from './store/counter/actions';
+import { useReducer } from 'react'; // 或者
 
 export const Demo = () => {
 	const count = useSelector(state => state.counter.count);
