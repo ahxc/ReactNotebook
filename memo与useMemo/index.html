@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    >
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        import React, { memo, useMemo, useState } from 'react';
+
+        const MyComponent = ({ prop1, prop2 }) => {
+            // component code here  
+        };
+        // memo和UseMemo都只能用于函数组件。memo只在props属性发生变化后渲染，useMemo只在依赖项[]变化时渲染。否则一直是读取缓存值。 类似计算属性computed
+        // 第二个参数可以是truefalse，也可以是getDerivedStateFromProps，结果为bool，为true重新渲染，手动控制。
+        const MemoizedComponent = memo(MyComponent, (prevProps, nextProps) => {
+            // compare function code here  
+        });
+
+        // ! 注意，当渲染过程中，props中有一些注定变化的属性，如函数，组件等，memo形同虚设还会加大计算。
+        // 因为父组件函数会随着父组件渲染而重新计算，这意味着props一直是变化的，因此使用memo时一定要注意没有恒变属性。
+        // 解决办法可以使用useCallback包裹父组件传递给子组件的函数。
+
+        function Example() {
+            const [count, setCount] = useState(0);
+            const [expensiveCount, setExpensiveCount] = useState(0);
+
+            const expensiveFunction = useMemo(() => {
+                console.log('calculating expensiveFunction');
+                return count + 100;
+            }, [count]);
+
+            return (
+                <div>
+                    <p>Count: {count}</p>
+                    <p>expensiveFunctionCount: {expensiveFunction()}</p>
+                    <button onClick={() => setCount(count + 1)}>Increment</button>
+                    <p>Expensive count: {expensiveCount}</p>
+                    <button onClick={() => setExpensiveCount(expensiveCount + 1)}>Increment expensive</button>
+                </div>
+            );
+        }
+    </script>
+</body>
+
+</html>
