@@ -38,16 +38,8 @@
     </div>
 
     <script>
-        // 而React的逻辑就是,在顶层document处监听所有的事件,将事件代理到document上,然后手动模拟冒泡执行和捕获执行的逻辑。
-        // 这样做的好处是除了document节点，底层的dom都不需要添加监听器了。同时方便react处理浏览器兼容性问题。
-        const box1 = document.getElementById("box1");
-        const box2 = document.getElementById("box2");
-        const box3 = document.getElementById("box3");
-
-        // box1.addEventListener('click', () => { console.log('点击box1',); }, true);
-        // box2.addEventListener('click', () => { console.log('点击box2',); }, true);
-        box3.addEventListener('click', () => { console.log('点击box3',); }, true)
-
+        // 原生事件不会代理到根节点，可以调用setState方法更新，v16不会触发批处理更新，v17后可以。v17去掉了事件复用，对于浏览器没有多大提升。
+        // react原生事件可以通过addEventListener和dom.onclick=fun定义
     </script>
 </body>
 
