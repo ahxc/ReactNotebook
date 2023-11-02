@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    >
+    <title>Document</title>
+</head>
+
+<body>
+    <script src="">
+        // useInterval 页面进入就定期执行函数。
+        function useInterval(fn, delay = 300) {
+            useEffect(() => {
+                const interval = setInterval(() => {
+                    fn.apply(this, arguments);
+                }, delay);
+                return () => {
+                    clearInterval(interval);
+                };
+            }, []);
+        }
+
+        // useTimeout 页面进入隔段时间执行。
+        function useTimeout(fn, delay = 300) {
+            useEffect(() => {
+                const timer = setTimeout(() => {
+                    fn.apply(this, arguments);
+                }, delay);
+
+                return () => {
+                    clearTimeout(timer);
+                };
+            }, []);
+        }
+
+        // useCountDown 执行钩子后，开始倒计时，结束才能继续钩子。并提供一个响应式时间。
+        function useCountDown(fn, countDown = 3000) {
+            const flag = true;
+            const [time, setTime] = useState(countDown);
+            const _delay = countDown;
+
+            const handler = () => {
+                if (flag) {
+                    flag = false;
+                    fn.apply(this, arguments);
+                    const interval = setInterval(() => {
+                        setTime(_delay);
+                        _delay -= 1000;
+                    }, 1000);
+                }
+            };
+
+            return [handler, time, flag];
+        }
+    </script>
+</body>
+
+</html>

@@ -20,6 +20,8 @@ const proxy = require('http-proxy-middleware');
 // 它可以将前端页面收到的请求转发到其他服务器上，从而实现跨域访问或代理转发等功能。
 // 这个中间件可以用来解决由于协议和端口造成的跨域问题，但需要在服务器端进行相应的配置和处理。
 
+// vue-cli配置文件vue.config.js也可以配置代理服务器，通过devServer->proxy实现。
+
 module.exports = function (app) {
 	app.use(
 		proxy('/api1', { // 遇见api1前缀的请求触发该代理

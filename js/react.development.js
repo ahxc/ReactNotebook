@@ -2608,6 +2608,7 @@
   }
 
   function memo(type, compare) {
+    // 圈起来得代码块，不符合ES6标准。
     {
       if (!isValidElementType(type)) {
         warningWithoutStack$1(false, 'memo: The first argument must be a component. Instead ' + 'received: %s', type === null ? 'null' : typeof type);
