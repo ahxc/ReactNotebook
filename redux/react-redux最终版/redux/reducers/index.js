@@ -10,6 +10,7 @@ import persons from './person';
 
 //汇总所有的reducer变为一个总的reducer
 // 每个状态字段type必须唯一，包括不同reducer之间。
+// 一个reducer就是一个state。
 export default combineReducers({
 	count,
 	persons

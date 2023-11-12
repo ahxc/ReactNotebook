@@ -59,8 +59,8 @@ class B extends Component {
 }
 
 class C extends Component {
-	// 声明接收 context 
-	static contextType = {
+	// 声明 context 
+	static contextTypes = {
 		...MyContext,
 		//--- 在此声明
 		color: PropTypes.string,
