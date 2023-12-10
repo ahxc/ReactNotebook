@@ -38,7 +38,7 @@ class B extends Component {
 	};
 
 	//--- 方法二：context 也可不用导入createContext，通过生命周期方法 getChildContext 获取孙子组件的上下文。
-	// ! 注意这方法只能父子组件通信，而createContext包裹的组件无此限制。
+	// 他能像所有子组件传递信息。子组件通过静态声明 contextTypes 获取
 
 	getChildContext() {
 		return {
