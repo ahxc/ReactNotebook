@@ -64,7 +64,7 @@ const routesA = useRoutes([
     },
 ]);
 
-// useNavigate，编程路由
+// useNavigate，编程路由替换了之前useHistory
 function name(params) {
     const navigate = useNavigate();
     // 第一种方式
