@@ -198,7 +198,7 @@ export default class App extends Component {
                                         component={Home}
                                     />
                                     {/* Redireact相当于默认页面，当所有匹配失败重定向指定路由 */}
-                                    <Redirect to="/about" />
+                                    <Redirect from='' to="/about" />
                                     {/* 注意，如果组件里还有路由，即嵌套路由，比如Home里的子路由，那么需要把Home的路由/home也加到path里
 								如/home/news */}
 
