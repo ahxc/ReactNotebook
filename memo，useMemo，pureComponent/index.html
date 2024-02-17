@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0"
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
     >
     <title>Document</title>
 </head>
@@ -25,7 +25,7 @@
         });
 
         // ! 注意，当渲染过程中，props中有一些注定变化的属性，如函数，组件等，memo 形同虚设还会加大计算。
-        // 解决办法可以搭配使用useCallback包裹父组件传递给子组件的函数。
+        // 解决办法可以搭配使用 useCallback 包裹父组件传递给子组件的函数。
 
         function Example() {
             const [count, setCount] = useState(0);
