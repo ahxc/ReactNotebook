@@ -25,7 +25,7 @@ import { withRouter } from 'react-router-dom'; // 解决一般组件无路由三
 // 3。展示区的路劲与a标签的路径匹配，<Route path="/about" component={About}/>
 // 4。App组件标签外包裹一个<BrowserRouter> history 模式，或 <HashRouter> hash 模式
 
-// ! 路由组件和一般组件本质的区别，只有路由组件会接收三大props：location、history、match
+// ! 路由组件和一般组件本质的区别，只有路由组件会接收三大 props：location、history、match
 // 然后就是写法不同，<App/><Route path="/about" component={About}/>
 
 // 编程式路由
@@ -39,7 +39,6 @@ const click = () => {
 
     // state
     this.props.history.replace(`/home`, { id, title });
-
 
     this.props.history.go();
     this.props.history.goForward();
@@ -136,7 +135,7 @@ export default function Detail() {
     );
 }
 
-// useOutlet 用来呈现组件渲染的嵌套路由，outlet渲染的内容。
+// useOutlet 用来呈现组件渲染的嵌套路由， outlet 渲染的内容。
 const res = useOutlet();
 
 // useResolvedPath() 给定一个url值，解析其中 path，search，hash
@@ -161,6 +160,7 @@ export default class App extends Component {
 
                             {/* 导航区 */}
                             {/* 在React中靠路由链接实现切换组件--编写路由链接，功能和a标签一致，点击后跳转路由但不会刷新页面 */}
+                            {/* 原理：history.pushState */}
                             <Link className="list-group-item" to="/about">
                                 About
                             </Link>
